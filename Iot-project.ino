@@ -19,7 +19,7 @@ TickTwo sendData(publishThingspeak,2000);
 void mywebsite(String text){
   if (text == "ON"){
      webServer.send(200,"text/html",
-      R"( 
+      R"=====( 
         <!DOCTYPE html>
         <html>
           <head>
@@ -58,16 +58,17 @@ void mywebsite(String text){
               <h2> Natthapat Chuaycharoen 6530613017 </h2>
               <hr>
               <h2>Status : <span class='OnText'>ON</span></h2>
-              <button class='buttonOn'><a href='/on'>ON</a></button> <button class='buttonOff'><a href='/off'>OFF</a></button>
+              <a href='/on'><button class='buttonOn'>ON</button></a> <a href='/off'><button class='buttonOff'>OFF</button></a>
+              <h4>My code <a href='https://github.com/winpigface/Iot-project/blob/main/Iot-project.ino'>link</a><h4>
             </div>
           </body>
         </html>
-      )"   
+      )====="   
      );
   }
   if (text == "OFF"){
      webServer.send(200,"text/html",
-      R"(
+      R"=====(
         <!DOCTYPE html>
         <html>
           <head>
@@ -106,11 +107,12 @@ void mywebsite(String text){
               <h2> Natthapat Chuaycharoen 6530613017 </h2>
               <hr>
               <h2>Status : <span class='OnText'>OFF</span></h2>
-              <button class='buttonOn'><a href='/on'>ON</a></button> <button class='buttonOff'><a href='/off'>OFF</a></button>
+              <a href='/on'><button class='buttonOn'>ON</button></a> <a href='/off'><button class='buttonOff'>OFF</button></a>
+              <h4>My code <a href='https://github.com/winpigface/Iot-project/blob/main/Iot-project.ino'>link</a><h4>
             </div>
           </body>
         </html>
-      )"
+      )====="
      );  
   }
 }
@@ -121,6 +123,7 @@ void publishThingspeak(){
   mqtt.print(payload);
   mqtt.endMessage();
 }
+
 void setup() {
   Serial.begin(9600);
   pinMode(buzzer,OUTPUT);
@@ -133,8 +136,8 @@ void setup() {
 
   // check wifi is connect or not (waiting to connnect wifi)
   while (wifi.run() != WL_CONNECTED){
-    Serial.print(".");
-    delay(100);
+    //Serial.print(".");
+    delay(500);
   }
   // Show wifi IP
   Serial.println("Connected");
@@ -173,13 +176,15 @@ void loop() {
 
   if(magsensor == LOW && switchs) // LOW = ON
   {
-//  Serial.println("Found ");
+    Serial.println("Found ");
     digitalWrite(buzzer,LOW);  
   }
   else // HIGH == OFF
   {
-//  Serial.println("Not found ");
+    if(switchs){
+      Serial.println("Not found ");
+    }
     digitalWrite(buzzer,HIGH);
   }
-  delay(100);
+  delay(500);
 }
